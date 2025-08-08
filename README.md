@@ -2,7 +2,7 @@
 
 ## Visão Geral
 
-Este repositório contém a solução para o desafio técnico de backend do (teoricamente) do Itaú. O objetivo foi desenvolver uma API REST para gerenciar transações financeiras, com 3 endpoints focando no Cadastro, Remoção e Listagem das transações com base nas regras mencionadas.
+Este repositório contém a solução para o desafio técnico de backend (teoricamente) do Itaú. O objetivo foi desenvolver uma API REST para gerenciar transações financeiras, com 3 endpoints focando no Cadastro, Remoção e Listagem das transações com base nas regras mencionadas.
 
 A página para o desafio pode ser encontrada em: https://github.com/feltex/desafio-itau-backend
 
