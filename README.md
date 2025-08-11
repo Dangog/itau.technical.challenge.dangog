@@ -87,7 +87,7 @@ Para executar a API, siga os passos abaixo:
 ## FAQ e principais decisões:
 
 -   **1 - Porque foi utilizado ConcurrentHashMap ao invés de outra estrutura de dados?**
-R: Segurança de Concorrência, para o armazenamento in-memory, foi usado o `ConcurrentHashMap`. Essa coleção, otimizada para ambientes multi-threaded, garante a integridade dos dados sem comprometer a performance, além de poder adicioanr um conjunto "ID:Objeto" para gerenciamento por ID's únicos das transações.
+    R: Segurança de Concorrência, para o armazenamento in-memory, foi usado o `ConcurrentHashMap`. Essa coleção, otimizada para ambientes multi-threaded, garante a integridade dos dados sem comprometer a performance, além de poder adicioanr um conjunto "ID:Objeto" para gerenciamento por ID's únicos das transações.
 
 -   **2 - Porque a utilização do 'BigDecimal' ao invés de 'double' ou outros tipos de variáveis?**
-R: Valores Monetários, para evitar imprecisão em cálculos de ponto flutuante, o `BigDecimal` foi usado para o campo `valor`, garantindo cálculos financeiros com maior precisão após a virgula.
+    R: Valores Monetários, para evitar imprecisão em cálculos de ponto flutuante, o `BigDecimal` foi usado para o campo `valor`, garantindo cálculos financeiros com maior precisão após a virgula.
