@@ -17,7 +17,7 @@ import java.time.OffsetDateTime;
 public class TransactionController {
 
     private final TransactionService service;
-    private static final Logger logger = LoggerFactory.getLogger(TransactionService.class); //Logs no Controller
+    private static final Logger logger = LoggerFactory.getLogger(TransactionController.class); //Logs no Controller
 
     public TransactionController(TransactionService service) {
         this.service = service;
