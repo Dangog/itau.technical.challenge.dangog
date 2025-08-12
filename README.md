@@ -19,19 +19,13 @@ A aplicação foi construída com Java 17 e Spring Boot, utilizando o Jakarta Be
 -   **Coleções Seguras:** `java.util.concurrent` (ConcurrentHashMap)
 -   **Produtividade:** Project Lombok
 
-A solução segue o paradigma MVC (Model-View-Controller) e está organizada nas seguintes camadas:
-
--   `src/main/java/itau/challenge/com/itau/technical/controller`: Contém a classe `TransactionController`, que expõe os endpoints da API.
--   `src/main/java/itau/challenge/com/itau/technical/service`: Camada de lógica de negócio da aplicação.
--   `src/main/java/itau/challenge/com/itau/technical/dto`: Contém a classe `TransactionDTO`, um Data Transfer Object implementado como um Java Record para garantir imutabilidade e concisão.
--   `src/main/java/itau/challenge/com/itau/technical/repository`: Camada de "persistência" de dados. Para este desafio, foi usado um `ConcurrentHashMap` para simular um banco de dados in-memory seguro para threads.
--   `src/main/java/itau/challenge/com/itau/technical/model`: Classe de domínio `Transaction`, utilizada para representar a entidade de transação na lógica de negócio.
+A solução segue o paradigma MVC (Model-View-Controller)
 
 ## Endpoints da API
 
 A API expõe os seguintes endpoints:
 
-### POST `/transactions`
+### POST `/transacao`
 
 -   **Descrição:** Cria uma nova transação.
 -   **Corpo da Requisição:**
@@ -45,13 +39,13 @@ A API expõe os seguintes endpoints:
     -   `201 Created`: Transação criada com sucesso.
     -   `400 Bad Request`: Falha na validação dos dados da requisição.
 
-### DELETE `/transactions`
+### DELETE `/transacao`
 
 -   **Descrição:** Apaga todas as transações da base de dados in-memory.
 -   **Respostas:**
     -   `204 No Content`: Operação concluída com sucesso.
 
-### GET `/statistics`
+### GET `/estatistica`
 
 -   **Descrição:** Retorna as estatísticas das transações do último minuto.
 -   **Respostas:**
@@ -65,6 +59,12 @@ A API expõe os seguintes endpoints:
           "count": 1
         }
         ```
+
+### GET `/transacao` (Não foi pedido no desafio, porém me ajudou no processo de debug então foi mantido)
+
+-   **Descrição:** Retorna todas as transações salvas em memória.
+  -   **Respostas:**
+      -   `200 OK`: Retorna um JSON com as transações.
 
 ## Como Rodar a Aplicação
 
@@ -91,3 +91,6 @@ Para executar a API, siga os passos abaixo:
 
 -   **2 - Porque a utilização do 'BigDecimal' ao invés de 'double' ou outros tipos de variáveis?**
     R: Valores Monetários, para evitar imprecisão em cálculos de ponto flutuante, o `BigDecimal` foi usado para o campo `valor`, garantindo cálculos financeiros com maior precisão após a virgula.
+  
+- **3 - Porque a utilização de diferentes níveis de logs?**
+    R: Buscando simular ambientes produtivos, logs mais detalhados podem ser vistos ao iniciar o projeto em modo "DEBUG", onde no modo "INFO", somente logs básicos (porém necessários) podem ser visualizados.
