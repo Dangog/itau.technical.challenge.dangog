@@ -25,4 +25,5 @@ public class RestExceptionHandler {
         logger.warn("Argument type mismatch: {}", error);
         return ResponseEntity.badRequest().build(); // Retorna 400 com corpo vazio
     }
+
 }
