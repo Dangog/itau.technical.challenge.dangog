@@ -134,6 +134,54 @@ Após iniciar a aplicação, a documentação pode ser acessada através dos seg
 
 A interface do Swagger permite visualizar todos os endpoints, seus parâmetros, corpos de requisição e respostas, além de permitir a execução de testes diretamente pelo navegador.
 
+## Monitoramento e Saúde da Aplicação (Actuator)
+
+O projeto utiliza o **Spring Boot Actuator** para expor informações operacionais essenciais.
+
+### Health Check
+
+Este endpoint é fundamental para verificar se a aplicação está em um estado saudável e pronta para receber tráfego.
+
+-   **Endpoint:** `GET /actuator/health`
+-   **Descrição:** Verifica a saúde geral da aplicação, incluindo o status de componentes como espaço em disco e outros `HealthIndicators` customizados.
+-   **Respostas:**
+    -   `200 OK`: A aplicação e todos os seus componentes essenciais estão saudáveis (`UP`).
+    -   `503 Service Unavailable`: A aplicação ou um de seus componentes essenciais está com problemas (`DOWN`).
+    - 
+-   **Exemplo de Corpo da Resposta (UP):**
+    ```json
+    {
+        "status": "UP",
+        "components": {
+            "diskSpace": {
+                "status": "UP",
+                "details": {
+                    "total": 480085274624,
+                    "free": 28547436544,
+                    "threshold": 10485760,
+                    "path": "\\itau.technical.challenge.dangog\\.",
+                    "exists": true
+                }
+            },
+            "healthCheck": {
+                "status": "UP",
+                "details": {
+                    "service": "TransactionService is available"
+                }
+            },
+            "ping": {
+                "status": "UP"
+            },
+            "ssl": {
+                "status": "UP",
+                "details": {
+                    "validChains": [],
+                    "invalidChains": []
+                }
+            }
+        }
+    }
+    ```
 
 ## FAQ e principais decisões:
 

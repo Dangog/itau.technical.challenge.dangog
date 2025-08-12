@@ -41,7 +41,7 @@ public class StatisticsController {
     })
     public ResponseEntity<StatisticsDTO> listStatistics(HttpServletRequest request){
         String ipAddress = request.getRemoteAddr();
-        logger.info("Initiated GET /estatistica from IP: {}", ipAddress);
+        logger.info("Initiated GET /estatistica, {}", ipAddress);
 
         StatisticsDTO stats = service.getStatistics();
         return ResponseEntity.ok(stats);
