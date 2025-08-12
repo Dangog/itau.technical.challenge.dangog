@@ -1,8 +1,14 @@
 package itau.challenge.com.itau.technical.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import itau.challenge.com.itau.technical.dto.TransactionDTO;
 import itau.challenge.com.itau.technical.model.Transaction;
 import itau.challenge.com.itau.technical.services.TransactionService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +23,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/transacao")
+@Tag(name = "Transactions", description = "Endpoints for managing financial transactions")
 public class TransactionController {
 
     private final TransactionService service;
@@ -28,18 +35,25 @@ public class TransactionController {
 
     //Pré-requisito 1 -> Criação de transações
     @PostMapping
-    public ResponseEntity<Void> addTransaction(@Valid @RequestBody TransactionDTO entity){
-        logger.info("Initiated POST /transacao");
+    @Operation(summary = "Create a new transaction",
+            description = "Registers a new financial transaction. The value must be positive and the date cannot be in the future.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Transaction created successfully",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid request format (e.g., malformed JSON)",
+                    content = @Content),
+            @ApiResponse(responseCode = "422", description = "Business validation failure (e.g., non-positive value or future date)",
+                    content = @Content)
+    })
+    public ResponseEntity<Void> addTransaction(@Valid @RequestBody TransactionDTO entity, HttpServletRequest request){
+        String ipAddress = request.getRemoteAddr();
+        logger.info("Initiated POST /transacao, {}", ipAddress);
         //Requisito: Transacao nao deve ocorre no futuro ou caso menor ou igual a zero
         if (entity.dataHora().isAfter(OffsetDateTime.now()) || entity.valor().compareTo(BigDecimal.ZERO) <= 0){
             return ResponseEntity.unprocessableEntity().build();
         }
 
-        logger.debug("BBBBBBBBBBBBBBBBBBB: {}",entity.toString());
         Transaction transaction = new Transaction(entity.valor(), entity.dataHora());
-        logger.debug(String.valueOf(entity.dataHora()));
-        logger.debug(String.valueOf(entity.valor()));
-
 
         service.addTransaction(transaction);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -47,27 +61,37 @@ public class TransactionController {
 
     //Pré-requisito 2 -> Remoção de transações
     @DeleteMapping
-    public ResponseEntity<Void> removeTransactions(){
-        logger.info("Initiated DELETE /transacao");
+    @Operation(summary = "Delete all transactions",
+            description = "Clears all transactions from the in-memory storage.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "All transactions successfully deleted",
+                    content = @Content)
+    })
+    public ResponseEntity<Void> removeTransactions(HttpServletRequest request){
+        String ipAddress = request.getRemoteAddr();
+        logger.info("Initiated DELETE /transacao, {}", ipAddress);
+
         service.removeTransactions();
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    //Bonus (e para depuracao):-> Listagem de todas transações
+    //Bonus (e para depuracao) -> Listagem de todas transações
     @GetMapping
-    public ResponseEntity<List<TransactionDTO>> getAllTransactions() {
-        logger.info("Initiated GET /transacao to list all transactions");
+    @Operation(summary = "List all transactions",
+            description = "Retrieves a list of all in-memory transactions")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the list of transactions")
+    })
+    public ResponseEntity<List<TransactionDTO>> getAllTransactions(HttpServletRequest request) {
+        String ipAddress = request.getRemoteAddr();
+        logger.info("Initiated GET /transacao, {}", ipAddress);
 
-        // 1. Chama o novo método do serviço
         List<Transaction> transactionList = service.getAllTransactions();
 
-        // 2. Converte a lista de Model (`Transaction`) para uma lista de DTO (`TransactionDTO`)
-        //    Isso é uma boa prática para não expor seu modelo interno na API.
         List<TransactionDTO> transactionDtos = transactionList.stream()
                 .map(transaction -> new TransactionDTO(transaction.getValor(), transaction.getDataHora()))
                 .collect(Collectors.toList());
 
-        // 3. Retorna a lista de DTOs no corpo da resposta com status 200 OK
         return ResponseEntity.ok(transactionDtos);
     }
 

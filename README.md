@@ -17,7 +17,7 @@ A aplicação foi construída com Java 17 e Spring Boot, utilizando o Jakarta Be
 -   **Gerenciador de Dependências:** Maven
 -   **Validação:** Jakarta Bean Validation (Hibernate Validator)
 -   **Coleções Seguras:** `java.util.concurrent` (ConcurrentHashMap)
--   **Produtividade:** Project Lombok
+-   **prdutividade:** Project Lombok
 
 A solução segue o paradigma MVC (Model-View-Controller)
 
@@ -84,21 +84,56 @@ A API expõe os seguintes endpoints:
 
 ## Como Rodar a Aplicação
 
-Para executar a API, siga os passos abaixo:
+Este projeto utiliza o **Maven Wrapper** (`mvnw`), que garante que todos os desenvolvedores usem a mesma versão do Maven sem a necessidade de uma instalação manual. Os comandos abaixo devem funcionar em qualquer ambiente com o Java v17 instalado.
 
-1.  **Pré-requisitos:** Certifique-se de ter o Java v17 e o gerenciador de pacotes Maven instalados em sua máquina.
-2.  **Clonar o Repositório:**
+O projeto foi configurado com dois perfis (*profiles*) de execução do Spring, que alteram o nível dos logs:
+
+-   **`prd` (Padrão):** Roda com logs no nível `INFO`, ideal para um ambiente de produção (usando o arquivo `application-prd.properties`).
+-   **`dev` (Desenvolvimento):** Roda com logs no nível `DEBUG`, mostrando informações detalhadas, úteis para o desenvolvimento (usando o arquivo `application-dev.properties`).
+
+Siga os passos abaixo para executar:
+
+1.  **Clonar o Repositório:**
     ```bash
-    git clone [https://github.com/](https://github.com/)<seu-usuario>/<nome-do-repositorio>.git
+    git clone [https://github.com/Dangog/itau.technical.challenge.dangog.git](https://github.com/Dangog/itau.technical.challenge.dangog.git)
     ```
-3.  **Compilar e Rodar:**
-    Navegue até a pasta raiz do projeto e execute o comando:
+
+2.  **Navegar até a pasta do projeto:**
     ```bash
-    mvn spring-boot:run
+    cd itau.technical.challenge.dangog
     ```
-    A aplicação estará disponível em `http://localhost:8080`.
+
+3.  **Compilar e Rodar usando o Maven Wrapper:**
+    *Nota: Em terminais Linux/macOS, use `./mvnw`. No Windows (CMD/PowerShell), você pode usar `mvnw` ou `.\mvnw`.*
+
+    * **Para rodar em modo de Produção (Logs `INFO`):**
+      O perfil `prd` é o padrão.
+        ```bash
+        # O perfil 'prd' será ativado por padrão
+        ./mvnw spring-boot:run
+        ```
+
+    * **Para rodar em modo de Desenvolvimento (Logs `DEBUG`):**
+      Use o seguinte comando para ativar o perfil `dev`.
+        ```bash
+        ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+        ```
+
+A aplicação estará disponível em `http://localhost:8080` em ambos os casos.
 
 *Posteriormente será disponibilizado nessa ou em outra branch a subida dessa projeto com containers usando docker.
+
+## Documentação da API (Swagger)
+
+Este projeto utiliza `springdoc-openapi` para gerar uma documentação interativa da API em tempo real.
+
+Após iniciar a aplicação, a documentação pode ser acessada através dos seguintes links:
+
+-   **Swagger UI (Interface Gráfica):** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+-   **OpenAPI Spec (JSON cru):** [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
+
+A interface do Swagger permite visualizar todos os endpoints, seus parâmetros, corpos de requisição e respostas, além de permitir a execução de testes diretamente pelo navegador.
+
 
 ## FAQ e principais decisões:
 
@@ -109,4 +144,4 @@ Para executar a API, siga os passos abaixo:
     R: Valores Monetários, para evitar imprecisão em cálculos de ponto flutuante, o `BigDecimal` foi usado para o campo `valor`, garantindo cálculos financeiros com maior precisão após a virgula.
   
 - **3 - Porque a utilização de diferentes níveis de logs?**
-    R: Buscando simular ambientes produtivos, logs mais detalhados podem ser vistos ao iniciar o projeto em modo "DEBUG", onde no modo "INFO", somente logs básicos (porém necessários) podem ser visualizados.
+    R: Buscando simular ambientes prdutivos, logs mais detalhados podem ser vistos ao iniciar o projeto em modo "DEBUG", onde no modo "INFO", somente logs básicos (porém necessários) podem ser visualizados.

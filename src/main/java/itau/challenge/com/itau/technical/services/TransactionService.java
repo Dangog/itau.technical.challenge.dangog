@@ -28,7 +28,6 @@ public class TransactionService {
     //Adição de transações
     public void addTransaction(Transaction transaction){
         String idTransaction = UUID.randomUUID().toString();
-        logger.debug("aaaaaaaaaaaa:  {}",transaction.getDataHora());
         transactions.put(idTransaction, transaction);
         logger.debug("Successfully added transaction with ID: {}", idTransaction);
     }
