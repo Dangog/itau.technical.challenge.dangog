@@ -60,7 +60,7 @@ A API expõe os seguintes endpoints:
         }
         ```
 
-### GET `/transacao` (Não foi pedido no desafio, porém me ajudou no processo de debug então foi mantido)
+### GET `/transacao` (Não foi solicitado ao desafio)
 
 -   **Descrição:** Retorna todas as transações salvas em memória.
   -   **Respostas:**
