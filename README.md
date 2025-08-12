@@ -65,6 +65,22 @@ A API expõe os seguintes endpoints:
 -   **Descrição:** Retorna todas as transações salvas em memória.
   -   **Respostas:**
       -   `200 OK`: Retorna um JSON com as transações.
+          ```json
+          [
+             {
+                    "valor": 1,
+                    "dataHora": "2025-08-11T22:56:00Z"
+              },
+              {
+                    "valor": 12398.50,
+                    "dataHora": "2025-08-11T22:56:00Z"
+             },
+              {
+                    "valor": 12398193,
+                    "dataHora": "2025-08-11T22:56:00Z"
+             }
+          ]
+          ```
 
 ## Como Rodar a Aplicação
 
