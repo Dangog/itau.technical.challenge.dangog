@@ -17,7 +17,9 @@ A aplicação foi construída com Java 17 e Spring Boot, utilizando o Jakarta Be
 -   **Gerenciador de Dependências:** Maven
 -   **Validação:** Jakarta Bean Validation (Hibernate Validator)
 -   **Coleções Seguras:** `java.util.concurrent` (ConcurrentHashMap)
--   **prdutividade:** Project Lombok
+-   **Produtividade e redução de Boilerplate:** Project Lombok
+-   **HealthCheck:** Starter Actuator
+
 
 A solução segue o paradigma MVC (Model-View-Controller)
 
@@ -138,7 +140,7 @@ A interface do Swagger permite visualizar todos os endpoints, seus parâmetros, 
 
 O projeto utiliza o **Spring Boot Actuator** para expor informações operacionais essenciais.
 
-### Health Check
+### Health Check 
 
 Este endpoint é fundamental para verificar se a aplicação está em um estado saudável e pronta para receber tráfego.
 
