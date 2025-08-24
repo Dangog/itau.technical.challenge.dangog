@@ -48,9 +48,8 @@ public class TransactionService {
         //Filtro de transações no último minuto e agrega a lista filtrando não nulos
         List<BigDecimal> recentAmounts = transactions.values().stream()
                 .filter(transaction ->
-                        transaction.getDataHora() != null && // <-- Adicione esta verificação
-                                transaction.getDataHora().isAfter(now.minusSeconds(60))
-                )
+                        transaction.getDataHora() != null &&
+                                transaction.getDataHora().isAfter(now.minusSeconds(60)))
                 .map(Transaction::getValor)
                 .toList();
 
@@ -60,26 +59,26 @@ public class TransactionService {
             return new StatisticsDTO(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, 0L);
         }
 
-        long count = recentAmounts.size();
+        long countTransactions = recentAmounts.size();
 
-        BigDecimal sum = recentAmounts.stream()
+        BigDecimal sumStatistics = recentAmounts.stream()
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        BigDecimal max = recentAmounts.stream()
+        BigDecimal maxStatistics = recentAmounts.stream()
                 .max(Comparator.naturalOrder())
                 .orElse(BigDecimal.ZERO);
 
-        BigDecimal min = recentAmounts.stream()
+        BigDecimal minStatistics = recentAmounts.stream()
                 .min(Comparator.naturalOrder())
                 .orElse(BigDecimal.ZERO);
 
         //Modo de arredondamento e escala definidas (por estar usando bigdecimal)
-        BigDecimal avg = sum.divide(new BigDecimal(count), 2, RoundingMode.HALF_UP);
+        BigDecimal avgStatistics = sumStatistics.divide(new BigDecimal(countTransactions), 2, RoundingMode.HALF_UP);
 
-        logger.debug("Successfully generated statistics for {} transactions.", count);
+        logger.debug("Successfully generated statistics for {} transactions.", countTransactions);
 
         //Retorno com base no DTO calculado com valores individualmente
-        return new StatisticsDTO(sum, avg, max, min, count);
+        return new StatisticsDTO(sumStatistics, avgStatistics, maxStatistics, minStatistics, countTransactions);
     }
 
     //Além do teste, retorna todas as transações
@@ -91,8 +90,4 @@ public class TransactionService {
                 .sorted(Comparator.comparing(Transaction::getDataHora))
                 .collect(Collectors.toList());
     }
-
-
-
-
 }

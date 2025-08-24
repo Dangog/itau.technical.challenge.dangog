@@ -75,7 +75,7 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    //Bonus (e para depuracao) -> Listagem de todas transações
+    //Bonus (e para depuracao) -> Listagem de todas transações em array, não ta serializado (ainda)
     @GetMapping
     @Operation(summary = "List all transactions",
             description = "Retrieves a list of all in-memory transactions")
